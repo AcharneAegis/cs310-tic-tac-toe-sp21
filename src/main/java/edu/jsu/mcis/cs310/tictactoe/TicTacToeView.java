@@ -46,16 +46,16 @@ public class TicTacToeView {
 
 
         if (isXTurn == true){
-            System.out.println("Player 1 (X) Move: \nEnter the row and column numbers, separated by a space: ");
+            System.out.print("Player 1 (X) Move: \nEnter the row and column numbers, separated by a space: ");
         }
         if (isXTurn == false){
-            System.out.println("Player 2 ()) Move: \nEnter the row and column numbers, separated by a space: ");
+            System.out.print("Player 2 (O) Move: \nEnter the row and column numbers, separated by a space: ");
         }
         
-        moveRow = System.in.nextInt();
-        moveCol = System.in.nextInt();
+        moveRow = keyboard.nextInt();
+        moveCol = keyboard.nextInt();
 
-        TicTacToeMove userMove = TicTacToeMove(moveRow, moveCol);
+        TicTacToeMove userMove = new TicTacToeMove(moveRow, moveCol);
         return userMove;
         //return null; // this is a stub; you should remove it later!
 

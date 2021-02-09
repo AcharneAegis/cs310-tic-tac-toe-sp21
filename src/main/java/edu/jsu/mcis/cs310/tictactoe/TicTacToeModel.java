@@ -77,29 +77,27 @@ public class TicTacToeModel {
     */
 
     public boolean makeMark(int row, int col) {
-        
         // INSERT YOUR CODE HERE
+        
+        boolean markMade = false;
+        
         if(this.isValidSquare(row, col)== true){
             if(this.isSquareMarked(row, col) == false){
 
-                if(this.xTrun == true){
+                if (this.xTurn == true){
                     this.board[row][col] = TicTacToeSquare.X;
                 }
 
-                if(this.xTrun == false){
+                if (this.xTurn == false){
                     this.board[row][col] = TicTacToeSquare.O;
                 }
 
                 this.xTurn = !this.xTurn;
-                return true;
+                markMade = true;
             }
         }
 
-        else{
-            return false; // this is a stub; you may need to remove it later!
-        }
-        
-        
+        return markMade;
         
     }
     
@@ -176,25 +174,28 @@ public class TicTacToeModel {
     public TicTacToeState getState() {
         
         // INSERT YOUR CODE HERE
-        /*
+        
         TicTacToeState gameState = TicTacToeState.NONE;
         
-        if(this.isMarkWin(this.board[0][0]) == true){
+        if(this.isMarkWin(TicTacToeSquare.X) == true){
             //gameState = this.board[0][0];
-            gameState = TicTacToeState.NONE;
+            gameState = TicTacToeState.X;
+            //System.out.println("X has won");
         }
 
-        else if(this.isMarkWin(board[0][0]) == false){
+        else if(this.isMarkWin(TicTacToeSquare.O) == true){
+            gameState = TicTacToeState.O;
+            //System.out.println("O has won");
+        }
+
+        else if(this.isTie() == true){
             gameState = TicTacToeState.TIE;
-        }
-
-        else{
-            gameState = TicTacToeState.NONE;
+            //System.out.println("It is a Tie");
         }
         
         //return null; // this is a stub; you should remove it later!
-        */
-        return TicTacToeState.X;
+        
+        return gameState;
     }
     
     /**
@@ -209,70 +210,57 @@ public class TicTacToeModel {
         
         // INSERT YOUR CODE HERE
 
-        boolean currentCheck = false;
+        boolean horizCheck = true, vertCheck = true, leftDiagCheck = true, rightDiagCheck = true;
 
 
         //Checks Horizontal
+
         for(int i = 0; i < this.dimension; i++){
             for(int j = 0; j < this.dimension; j++){
-                if (board[i][j] == mark){
-                    currentCheck = true;
+                if (this.board[i][j] != mark){
+                    horizCheck = false;
                 }
-                else{
-                    currentCheck = false;
-                    break;
-                }
-            }
-            if(currentCheck == true){
-                return currentCheck;
             }
         }
+
 
         //Checks Vertical
         for(int i = 0; i < this.dimension; i++){
             for(int j = 0; j < this.dimension; j++){
-                if (board[j][i] == mark){
-                    currentCheck = true;
+                if (this.board[j][i] != mark){
+                    vertCheck = false;
                 }
-                else{
-                    currentCheck = false;
-                    break;
-                }
-            }
-            if(currentCheck == true){
-                return currentCheck;
-            }
-        }
-        
-        //Checks Diagonal (Top Left to Bottom Right)
-        for(int i = 0; i < this.dimension; i++){
-            if (board[i][i] == mark){
-                currentCheck = true;
-            }
-            else{
-                currentCheck = false;
-                break;
-            }
-            if(currentCheck == true){
-                return currentCheck;
-            }
-        }
-        
-        //Checks Diagonal (Top Right to Bottom Left)
-        for(int i = (this.dimension - 1); i > 0; i--){
-            if (board[i][i] == mark){
-                currentCheck = true;
-            }
-            else{
-                currentCheck = false;
-                break;
-            }
-            if(currentCheck == true){
-                return currentCheck;
             }
         }
 
-        return currentCheck; // this is a stub; you may need to remove it later!
+        //Checks Diagonal (Top Left to Bottom Right)
+        for(int i = 0; i < this.dimension; i++){
+            if (this.board[i][i] != mark){
+                leftDiagCheck = false;
+                break;
+            }
+        }
+
+        //Checks Diagonal (Top Right to Bottom Left)
+        for(int i = 0; i < this.dimension; i++){
+            for(int j = (this.dimension - 1); j >= 0; j--){
+                if (board[i][j] != mark){
+                    rightDiagCheck = false;
+                    break;
+                }
+            }
+        }
+
+        System.out.println("This is H " + horizCheck + " for " + mark);
+        System.out.println("This is V " + vertCheck + " for "+ mark);
+        System.out.println("This is LD " + leftDiagCheck+ " for "+ mark);
+        System.out.println("This is RD " + rightDiagCheck+ " for "+ mark);
+        if(horizCheck == true || vertCheck == true || leftDiagCheck == true || rightDiagCheck == true){
+            return true;
+        }
+        else{
+            return false;
+        }
         
     }
     
@@ -286,101 +274,32 @@ public class TicTacToeModel {
         
         // INSERT YOUR CODE HERE
 
-        boolean currentCheck = false;
-
-        /*
-        for(int i = 0; i < this.dimension; i++){
-            for(int j = 0; j < this.dimension; j++){
-                if (board[i][j] != mark){
-                    currentCheck = true;
-                }
-                else{
-                    currentCheck = false;
-                    break;
-                }
-            }
-            }
-        }
-
-        //Checks Vertical
-        for(int i = 0; i < this.dimension; i++){
-            for(int j = 0; j < this.dimension; j++){
-                if (board[j][i] != mark){
-                    currentCheck = true;
-                }
-                else{
-                    currentCheck = false;
-                    break;
-                }
-            }
-            if(currentCheck == true){
-                return currentCheck;
-            }
-        }
-        
-        //Checks Diagonal (Top Left to Bottom Right)
-        for(int i = 0; i < this.dimension; i++){
-            if (board[i][i] != mark){
-                currentCheck = true;
-            }
-            else{
-                currentCheck = false;
-                break;
-            }
-            if(currentCheck == true){
-                return currentCheck;
-            }
-        }
-        
-        //Checks Diagonal (Top Right to Bottom Left)
-        for(int i = (this.dimension - 1); i > 0; i--){
-            if (board[i][i] != mark){
-                currentCheck = true;
-            }
-            else{
-                currentCheck = false;
-                break;
-            }
-            if(currentCheck == true){
-                return currentCheck;
-            }
-        }
-        */
-
-        boolean readyForCheck = false;
+        boolean readyForCheck = true;
 
         //Checks to see if all squares are filled
         for(int i = 0; i < this.dimension; i++){
             for(int j = 0; j < this.dimension; j++){
                 if(this.board[i][j] == TicTacToeSquare.EMPTY){
-                    break;
+                    readyForCheck = false;
+
                 }
-                else{
-                    readyForCheck = true;
-                }
-            }
-            if(this.board[i][j] == TicTacToeSquare.EMPTY){
-                break;
             }
         }
 
         //If all squares aren't filled, then it could still be won
-        if (readyForCheck = false){
+        if (readyForCheck == false){
             return false;
         }
 
         //If all squares are filled and neither side won, then it is a tie
-        else if(readyForCheck = true){
+        else if(readyForCheck == true){
             if (this.isMarkWin(TicTacToeSquare.X) == false && this.isMarkWin(TicTacToeSquare.O) == false) {
 
                 return true;
             }
         }
-
-
-        //return currentCheck; // this is a stub; you may need to remove it later!
         
-        //return false; // this is a stub; you may need to remove it later!
+        return readyForCheck;
         
     }
 
@@ -452,19 +371,12 @@ public class TicTacToeModel {
             for(int j = 0; j < this.dimension; j++){
                 output.append(board[i][j]);
             }
+            output.append("\n");
         }
 
         output.append("\n");
 
-        /*
-        if(this.getState() == "X"){
-            output.append("X!");
-        }
-        else if(this.getState() == "O"){
-            output.append("O!");
-        }
-        else if(this.getState() == "")
-        */
+
         return (output.toString());
         
     }
