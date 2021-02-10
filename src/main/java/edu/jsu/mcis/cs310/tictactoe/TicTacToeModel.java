@@ -114,7 +114,7 @@ public class TicTacToeModel {
         
         // INSERT YOUR CODE HERE
 
-        if(row < this.dimension && col < this.dimension){
+        if( (0 <= row && row < this.dimension) && (0 <= col && col < this.dimension)){
             return true;
         }
         else{
@@ -217,9 +217,16 @@ public class TicTacToeModel {
 
         for(int i = 0; i < this.dimension; i++){
             for(int j = 0; j < this.dimension; j++){
+                //System.out.println(board[i][j] + " and "+ mark);
                 if (this.board[i][j] != mark){
                     horizCheck = false;
                 }
+            }
+            if(horizCheck == true){
+                return horizCheck;
+            }
+            else{
+                horizCheck = true;
             }
         }
 
@@ -231,6 +238,12 @@ public class TicTacToeModel {
                     vertCheck = false;
                 }
             }
+            if(vertCheck == true){
+                return vertCheck;
+            }
+            else{
+                vertCheck = true;
+            }
         }
 
         //Checks Diagonal (Top Left to Bottom Right)
@@ -240,28 +253,22 @@ public class TicTacToeModel {
                 break;
             }
         }
-
+        if(leftDiagCheck == true){
+            return leftDiagCheck;
+        }
         //Checks Diagonal (Top Right to Bottom Left)
         for(int i = 0; i < this.dimension; i++){
-            for(int j = (this.dimension - 1); j >= 0; j--){
-                if (board[i][j] != mark){
-                    rightDiagCheck = false;
-                    break;
-                }
+            if (board[i][this.dimension - 1 -i] != mark){
+                rightDiagCheck = false;
+                break;
             }
         }
 
-        System.out.println("This is H " + horizCheck + " for " + mark);
-        System.out.println("This is V " + vertCheck + " for "+ mark);
-        System.out.println("This is LD " + leftDiagCheck+ " for "+ mark);
-        System.out.println("This is RD " + rightDiagCheck+ " for "+ mark);
-        if(horizCheck == true || vertCheck == true || leftDiagCheck == true || rightDiagCheck == true){
-            return true;
+        if(rightDiagCheck == true){
+            return rightDiagCheck;
         }
-        else{
-            return false;
-        }
-        
+
+        return false;
     }
     
     /**
